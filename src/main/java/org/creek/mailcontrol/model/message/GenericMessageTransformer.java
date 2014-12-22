@@ -1,5 +1,9 @@
 package org.creek.mailcontrol.model.message;
 
+import static org.creek.mailcontrol.model.message.MessageType.ITEMS_STATE_REQUEST_MESSAGE;
+import static org.creek.mailcontrol.model.message.MessageType.ITEM_COMMAND_REQUEST_MESSAGE;
+import static org.creek.mailcontrol.model.message.MessageType.ITEM_STATE_REQUEST_MESSAGE;
+
 import org.creek.mailcontrol.model.util.JSONTransformer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,8 +35,12 @@ public class GenericMessageTransformer {
             JSONObject jsonObject = (JSONObject) transformer.getResult();
             messageType = MessageType.getMessageType(Integer.parseInt((String) jsonObject.get(AbstractMessage.MESSAGE_TYPE)));
 
-            if (messageType == MessageType.ITEM_COMMAND_REQUEST_MESSAGE) {
+            if (messageType == ITEM_COMMAND_REQUEST_MESSAGE) {
                 return new ItemCommandRequestMessage(jsonObject);
+            } else if (messageType == ITEM_STATE_REQUEST_MESSAGE) {
+                return new ItemStateRequestMessage(jsonObject);
+            } else if (messageType == ITEMS_STATE_REQUEST_MESSAGE) {
+                return new ItemsStateRequestMessage(jsonObject);
             } else {
                 throw new TransformException("Unknown message type " + messageType);
             }

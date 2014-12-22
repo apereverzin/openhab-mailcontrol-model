@@ -28,6 +28,6 @@ public class HSBDataType implements GenericDataType {
     }
 
     public String toString() {
-        return getHue() + "," + getSaturation() + "," + getBrightness();
+        return "hue=" + getHue() + ", saturation=" + getSaturation() + ", brightness=" + getBrightness();
     }
 }

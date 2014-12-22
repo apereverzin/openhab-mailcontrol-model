@@ -3,10 +3,11 @@ package org.creek.mailcontrol.model.message;
 import static org.creek.mailcontrol.model.message.AbstractMessage.CURRENT_PRODUCT_VERSION;
 import static org.creek.mailcontrol.model.message.MessageType.ITEM_COMMAND_REQUEST_MESSAGE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.creek.mailcontrol.model.command.CommandTransformable;
-import org.creek.mailcontrol.model.command.DecimalCommand;
-import org.creek.mailcontrol.model.command.ItemCommand;
+import org.creek.mailcontrol.model.data.CommandTransformable;
+import org.creek.mailcontrol.model.data.DecimalData;
+import org.creek.mailcontrol.model.data.ItemCommandData;
 import org.creek.mailcontrol.model.util.JSONTransformer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,31 +24,29 @@ public class ItemCommandRequestMessageTest {
     private static final String SENDER_EMAIL = "aa@bb.cc";
     private static final String DECIMAL_VALUE = "12";
     
-    private ItemCommandRequestMessage message;
-    private ItemCommand itemCommand;
-    private CommandTransformable command;
-        
     @Test
-    public void shouldTransformItemCommandRequest() throws ParseException {
+    public void shouldTransformItemCommandRequestMessage() throws ParseException {
         // given
-        command = new DecimalCommand(DECIMAL_VALUE);
-        itemCommand = new ItemCommand(TIMESTAMP, ITEM_ID, command);
-        message = new ItemCommandRequestMessage(itemCommand, SENDER_EMAIL);
+        CommandTransformable command = new DecimalData(DECIMAL_VALUE);
+        ItemCommandData itemCommand = new ItemCommandData(TIMESTAMP, ITEM_ID, command);
+        ItemCommandRequestMessage message = new ItemCommandRequestMessage(itemCommand, SENDER_EMAIL);
         
         // when
-        JSONObject jsonCommand = message.toJSON();
-        String s = jsonCommand.toString();
+        JSONObject jsonMessage = message.toJSON();
+        String s = jsonMessage.toString();
         JSONParser parser = new JSONParser();
         JSONTransformer transformer = new JSONTransformer();
         parser.parse(s, transformer);
 
+        // {"messageType":"110","messageId":{"timestamp":1418237415197,"senderEmail":"aa@bb.cc"},"productVersion":"1.0","itemCommand":{"state":{"type":"DECIMAL","value":"12"},"itemId":"LIGHT","timeSent":"0"}}
         JSONObject res = (JSONObject) transformer.getResult();
         ItemCommandRequestMessage messageRes = new ItemCommandRequestMessage(res);
         
         // then
         assertEquals(ITEM_COMMAND_REQUEST_MESSAGE, messageRes.getMessageType());
         assertEquals(CURRENT_PRODUCT_VERSION, messageRes.getProductVersion());
-        assertEquals(SENDER_EMAIL, messageRes.getSenderEmail());
-        assertEquals(ItemCommand.class.getName(), messageRes.getItemCommand().getClass().getName());
+        assertEquals(SENDER_EMAIL, messageRes.getMessageId().getSenderEmail());
+        assertEquals(ItemCommandData.class.getName(), messageRes.getItemCommand().getClass().getName());
+        assertTrue(messageRes.getMessageId().getTimestamp() > 0);
     }
 }

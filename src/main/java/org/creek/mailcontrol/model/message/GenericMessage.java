@@ -7,4 +7,5 @@ package org.creek.mailcontrol.model.message;
 public interface GenericMessage extends JsonTransformable {
     MessageType getMessageType();    
     String getProductVersion();
+    MessageId getMessageId();
 }

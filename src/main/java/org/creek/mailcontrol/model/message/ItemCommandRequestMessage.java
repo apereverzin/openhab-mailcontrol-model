@@ -2,7 +2,7 @@ package org.creek.mailcontrol.model.message;
 
 import static org.creek.mailcontrol.model.message.MessageType.ITEM_COMMAND_REQUEST_MESSAGE;
 
-import org.creek.mailcontrol.model.command.ItemCommand;
+import org.creek.mailcontrol.model.data.ItemCommandData;
 import org.json.simple.JSONObject;
 
 /**
@@ -14,19 +14,19 @@ public class ItemCommandRequestMessage extends AbstractMessage {
 
     private static final String ITEM_COMMAND = "itemCommand";
     
-    private ItemCommand itemCommand;
+    private ItemCommandData itemCommand;
 
-    public ItemCommandRequestMessage(ItemCommand itemCommand, String senderEmail) {
+    public ItemCommandRequestMessage(ItemCommandData itemCommand, String senderEmail) {
         super(senderEmail);
         this.itemCommand = itemCommand;
     }
     
     public ItemCommandRequestMessage(JSONObject jsonObject){
         super(jsonObject);
-        this.itemCommand = new ItemCommand((JSONObject) jsonObject.get(ITEM_COMMAND));
+        this.itemCommand = new ItemCommandData((JSONObject) jsonObject.get(ITEM_COMMAND));
     }
 
-    public GenericItemCommand getItemCommand() {
+    public GenericItemState getItemCommand() {
         return itemCommand;
     }
 
@@ -41,5 +41,10 @@ public class ItemCommandRequestMessage extends AbstractMessage {
     @Override
     public MessageType getMessageType() {
         return ITEM_COMMAND_REQUEST_MESSAGE;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + " [" + super.toString() + ", " + ITEM_COMMAND + " [" + itemCommand.toString() + "]]";
     }
 }

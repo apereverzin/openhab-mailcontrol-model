@@ -34,6 +34,6 @@ public abstract class AbstractSendableData implements JsonTransformable {
 
     @Override
     public String toString() {
-        return "timeSent=" + timeSent;
+        return TIME_SENT + "=" + timeSent;
     }
 }
