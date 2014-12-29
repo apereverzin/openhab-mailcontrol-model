@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class ItemCommandRequestMessage extends AbstractMessage {
+public class ItemCommandRequestMessage extends AbstractMessage implements GenericRequest {
 
     private static final String ITEM_COMMAND = "itemCommand";
     
@@ -26,7 +26,7 @@ public class ItemCommandRequestMessage extends AbstractMessage {
         this.itemCommand = new ItemCommandData((JSONObject) jsonObject.get(ITEM_COMMAND));
     }
 
-    public GenericItemState getItemCommand() {
+    public ItemData getItemCommand() {
         return itemCommand;
     }
 

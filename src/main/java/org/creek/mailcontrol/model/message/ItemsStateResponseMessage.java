@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class ItemsStateResponseMessage extends AbstractResponse {
+public class ItemsStateResponseMessage extends AbstractResponse implements GenericResponse {
     private static final String ITEM_STATES = "itemStates";
     
     private final List<ItemStateData> itemStates;
@@ -26,12 +26,7 @@ public class ItemsStateResponseMessage extends AbstractResponse {
     
     public ItemsStateResponseMessage(JSONObject jsonObject) {
         super(jsonObject);
-        JSONArray itemStatesArray = (JSONArray)jsonObject.get(ITEM_STATES);
-        this.itemStates = new ArrayList<ItemStateData>();
-        for(Object itemStateObject: itemStatesArray) {
-            ItemStateData itemState = new ItemStateData((JSONObject)itemStateObject);
-            itemStates.add(itemState);
-        }
+        this.itemStates = buildItemStatesList(jsonObject);
     }
 
     public List<ItemStateData> getItemStates() {
@@ -69,5 +64,17 @@ public class ItemsStateResponseMessage extends AbstractResponse {
         }
         s = s + "]]";
         return s;
+    }
+
+    private List<ItemStateData> buildItemStatesList(JSONObject jsonObject) {
+        JSONArray itemStatesArray = (JSONArray)jsonObject.get(ITEM_STATES);
+        
+        List<ItemStateData> itemStates = new ArrayList<ItemStateData>();
+        for(Object itemStateObject: itemStatesArray) {
+            ItemStateData itemState = new ItemStateData((JSONObject)itemStateObject);
+            itemStates.add(itemState);
+        }
+        
+        return itemStates;
     }
 }

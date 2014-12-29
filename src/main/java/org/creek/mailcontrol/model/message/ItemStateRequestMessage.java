@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class ItemStateRequestMessage extends AbstractMessage {
+public class ItemStateRequestMessage extends AbstractMessage implements GenericRequest {
 
     private static final String ITEM_ID = "itemId";
     

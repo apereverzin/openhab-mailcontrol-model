@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class IncreaseDecreaseData extends PrimitiveData<IncreaseDecreaseDataType> implements StateTransformable, CommandTransformable {
+public class IncreaseDecreaseData extends PrimitiveData<IncreaseDecreaseDataType> implements CommandTransformable {
     public IncreaseDecreaseData(IncreaseDecreaseDataType commandValue) {
         super(commandValue);
     }
@@ -25,11 +25,6 @@ public class IncreaseDecreaseData extends PrimitiveData<IncreaseDecreaseDataType
         JSONObject jsonObject = super.toJSON();
         jsonObject.put(VALUE, ((IncreaseDecreaseDataType)data).name());
         return jsonObject;
-    }
-
-    @Override
-    public DataType getStateType() {
-        return getDataType();
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.PERCENT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -38,7 +39,20 @@ public class PercentDataTest {
         
         // then
         assertEquals(PERCENT, dataRes.getStateType());
+        assertEquals(PERCENT, dataRes.getCommandType());
         assertEquals(PERCENT_VALUE, ((PercentDataType)dataRes.getData()).toString());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        data = new PercentData(PERCENT_VALUE);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(PercentData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class ItemStateResponseMessage extends AbstractResponse {
+public class ItemStateResponseMessage extends AbstractResponse implements GenericResponse {
 
     private static final String ITEM_STATE = "itemState";
     

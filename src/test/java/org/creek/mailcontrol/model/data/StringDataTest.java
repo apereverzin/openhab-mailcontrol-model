@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.STRING;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -39,7 +40,21 @@ public class StringDataTest {
         
         // then
         assertEquals(STRING, dataRes.getStateType());
+        assertEquals(STRING, dataRes.getCommandType());
         assertEquals(STRING_VALUE, dataRes.getData().toString());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        StringDataType value = new StringDataType(STRING_VALUE);
+        data = new StringData(value);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(StringData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

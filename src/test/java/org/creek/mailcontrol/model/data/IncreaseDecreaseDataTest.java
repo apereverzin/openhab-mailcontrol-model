@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.INCREASE_DECREASE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.creek.mailcontrol.model.types.IncreaseDecreaseDataType.DECREASE;
 import static org.creek.mailcontrol.model.types.IncreaseDecreaseDataType.INCREASE;
 
@@ -38,7 +39,7 @@ public class IncreaseDecreaseDataTest {
         IncreaseDecreaseData dataRes = new IncreaseDecreaseData(res);
         
         // then
-        assertEquals(INCREASE_DECREASE, dataRes.getStateType());
+        assertEquals(INCREASE_DECREASE, dataRes.getCommandType());
         assertEquals(value, dataRes.getData());
     }
     
@@ -60,8 +61,20 @@ public class IncreaseDecreaseDataTest {
         IncreaseDecreaseData dataRes = new IncreaseDecreaseData(res);
         
         // then
-        assertEquals(INCREASE_DECREASE, dataRes.getStateType());
+        assertEquals(INCREASE_DECREASE, dataRes.getCommandType());
         assertEquals(value, dataRes.getData());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        data = new IncreaseDecreaseData(DECREASE);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(IncreaseDecreaseData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

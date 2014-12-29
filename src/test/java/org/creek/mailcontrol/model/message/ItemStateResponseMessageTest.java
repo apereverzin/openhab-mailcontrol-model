@@ -1,10 +1,16 @@
 package org.creek.mailcontrol.model.message;
 
+import static org.creek.mailcontrol.model.data.DataType.INCREASE_DECREASE;
+import static org.creek.mailcontrol.model.data.DataType.ON_OFF;
 import static org.creek.mailcontrol.model.message.AbstractMessage.CURRENT_PRODUCT_VERSION;
 import static org.creek.mailcontrol.model.message.MessageType.ITEM_STATE_RESPONSE_MESSAGE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.creek.mailcontrol.model.data.DataType;
 import org.creek.mailcontrol.model.data.DecimalData;
 import org.creek.mailcontrol.model.data.ItemStateData;
 import org.creek.mailcontrol.model.data.StateTransformable;
@@ -28,11 +34,8 @@ public class ItemStateResponseMessageTest {
     @Test
     public void shouldTransformItemStateResponseMessage() throws ParseException {
         // given
-        StateTransformable command = new DecimalData(DECIMAL_VALUE);
-        ItemStateData itemState = new ItemStateData(TIMESTAMP, ITEM_ID, command);
-        MessageId requestId = new MessageId(REQUEST_EMAIL);
-        long requestTimestamp = requestId.getTimestamp();
-        ItemStateResponseMessage message = new ItemStateResponseMessage(itemState, requestId, SENDER_EMAIL);
+        ItemStateResponseMessage message = buildMessage();
+        long requestTimestamp = message.getRequestId().getTimestamp();
         
         // when
         JSONObject jsonMessage = message.toJSON();
@@ -41,7 +44,7 @@ public class ItemStateResponseMessageTest {
         JSONTransformer transformer = new JSONTransformer();
         parser.parse(s, transformer);
 
-        // {"messageType":"113","itemState":{"itemId":"LIGHT","state":"Undefined"},"productVersion":"1.0","messageId":{"timestamp":1418321714818,"senderEmail":"dd@ee.ff"},"requestId":{"timestamp":1418321714816,"senderEmail":"aa@bb.cc"}}
+        // {"itemState":{"state":{"type":"DECIMAL","value":"12"},"itemId":"LIGHT","timeSent":"0"},"messageType":"113","productVersion":"1.0","messageId":{"timestamp":1419359758214,"senderEmail":"dd@ee.ff"},"requestId":{"timestamp":1419359758211,"senderEmail":"aa@bb.cc"}}
         JSONObject res = (JSONObject) transformer.getResult();
         ItemStateResponseMessage messageRes = new ItemStateResponseMessage(res);
         
@@ -53,5 +56,36 @@ public class ItemStateResponseMessageTest {
         assertEquals(SENDER_EMAIL, messageRes.getMessageId().getSenderEmail());
         assertTrue(messageRes.getMessageId().getTimestamp() > 0);
         assertEquals(ITEM_ID, messageRes.getItemState().getItemId());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        ItemStateResponseMessage message = buildMessage();
+        
+        // when
+        String s = message.toString();
+        
+        // then
+        assertTrue(s.contains(ItemStateResponseMessage.class.getName()));
+    }
+
+    private ItemStateResponseMessage buildMessage() {
+        StateTransformable command = new DecimalData(DECIMAL_VALUE);
+        List<DataType> acceptedCommands = buildAcceptedCommandsList(INCREASE_DECREASE, ON_OFF);
+        ItemStateData itemState = new ItemStateData(TIMESTAMP, ITEM_ID, command, acceptedCommands);
+        MessageId requestId = new MessageId(REQUEST_EMAIL);
+        ItemStateResponseMessage message = new ItemStateResponseMessage(itemState, requestId, SENDER_EMAIL);
+        return message;
+    }
+    
+    private List<DataType> buildAcceptedCommandsList(DataType... dataTypes) {
+        List<DataType> acceptedCommands = new ArrayList<DataType>();
+        
+        for (DataType dataType: dataTypes) {
+            acceptedCommands.add(dataType);
+        }
+        
+        return acceptedCommands;
     }
 }

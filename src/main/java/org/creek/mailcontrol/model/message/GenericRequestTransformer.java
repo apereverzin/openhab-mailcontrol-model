@@ -1,5 +1,6 @@
 package org.creek.mailcontrol.model.message;
 
+import static org.creek.mailcontrol.model.message.AbstractMessage.MESSAGE_TYPE;
 import static org.creek.mailcontrol.model.message.MessageType.ITEMS_STATE_REQUEST_MESSAGE;
 import static org.creek.mailcontrol.model.message.MessageType.ITEM_COMMAND_REQUEST_MESSAGE;
 import static org.creek.mailcontrol.model.message.MessageType.ITEM_STATE_REQUEST_MESSAGE;
@@ -12,28 +13,23 @@ import org.json.simple.parser.JSONParser;
  * 
  * @author Andrey Pereverzin
  */
-public class GenericMessageTransformer {
+public class GenericRequestTransformer {
     private final JSONParser parser;
     private final JSONTransformer transformer;
 
-    public GenericMessageTransformer() {
+    public GenericRequestTransformer() {
         this.parser = new JSONParser();
         this.transformer = new JSONTransformer();
     }
 
-    public GenericMessageTransformer(JSONParser parser, JSONTransformer transformer) {
-        this.parser = parser;
-        this.transformer = transformer;
-    }
-
-    public GenericMessage transform(String content) throws TransformException {
+    public GenericRequest transform(String content) throws TransformException {
         MessageType messageType;
 
         try {
             parser.parse(content, transformer);
 
             JSONObject jsonObject = (JSONObject) transformer.getResult();
-            messageType = MessageType.getMessageType(Integer.parseInt((String) jsonObject.get(AbstractMessage.MESSAGE_TYPE)));
+            messageType = MessageType.getMessageType(Integer.parseInt((String) jsonObject.get(MESSAGE_TYPE)));
 
             if (messageType == ITEM_COMMAND_REQUEST_MESSAGE) {
                 return new ItemCommandRequestMessage(jsonObject);
@@ -42,7 +38,7 @@ public class GenericMessageTransformer {
             } else if (messageType == ITEMS_STATE_REQUEST_MESSAGE) {
                 return new ItemsStateRequestMessage(jsonObject);
             } else {
-                throw new TransformException("Unknown message type " + messageType);
+                throw new TransformException("Unknown request type " + messageType);
             }
         } catch (Exception ex) {
             throw new TransformException(ex);

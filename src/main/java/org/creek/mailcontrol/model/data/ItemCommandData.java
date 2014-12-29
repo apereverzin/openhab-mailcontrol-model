@@ -6,11 +6,12 @@ import static org.creek.mailcontrol.model.data.DataType.HSB;
 import static org.creek.mailcontrol.model.data.DataType.INCREASE_DECREASE;
 import static org.creek.mailcontrol.model.data.DataType.ON_OFF;
 import static org.creek.mailcontrol.model.data.DataType.OPEN_CLOSED;
+import static org.creek.mailcontrol.model.data.DataType.PERCENT;
 import static org.creek.mailcontrol.model.data.DataType.STOP_MOVE;
 import static org.creek.mailcontrol.model.data.DataType.STRING;
 import static org.creek.mailcontrol.model.data.DataType.UP_DOWN;
 
-import org.creek.mailcontrol.model.message.GenericItemState;
+import org.creek.mailcontrol.model.message.ItemData;
 import org.json.simple.JSONObject;
 
 /**
@@ -18,7 +19,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class ItemCommandData extends GenericItemState {
+public class ItemCommandData extends ItemData {
     private final CommandTransformable command;
     
     private static final String COMMAND = "command";
@@ -52,29 +53,32 @@ public class ItemCommandData extends GenericItemState {
 
     private CommandTransformable buildCommand(JSONObject jsonObject) {
         JSONObject commandObject = (JSONObject)jsonObject.get(COMMAND);
-        DataType stateType = DataType.valueOf((String)commandObject.get(TYPE));
-        if (stateType == DECIMAL) {
+        DataType commandType = DataType.valueOf((String)commandObject.get(TYPE));
+        if (commandType == DECIMAL) {
             return new DecimalData(commandObject);
         }
-        if (stateType == HSB) {
+        if (commandType == HSB) {
             return new HSBData(commandObject);
         }
-        if (stateType == ON_OFF) {
+        if (commandType == ON_OFF) {
             return new OnOffData(commandObject);
         } 
-        if (stateType == INCREASE_DECREASE) {
+        if (commandType == INCREASE_DECREASE) {
             return new IncreaseDecreaseData(commandObject);
         } 
-        if (stateType == OPEN_CLOSED) {
+        if (commandType == OPEN_CLOSED) {
             return new OpenClosedData(commandObject);
         } 
-        if (stateType == STRING) {
+        if (commandType == PERCENT) {
+            return new PercentData(commandObject);
+        } 
+        if (commandType == STRING) {
             return new StringData(commandObject);
         } 
-        if (stateType == STOP_MOVE) {
+        if (commandType == STOP_MOVE) {
             return new StopMoveData(commandObject);
         } 
-        if (stateType == UP_DOWN) {
+        if (commandType == UP_DOWN) {
             return new UpDownData(commandObject);
         }
         throw new IllegalArgumentException();

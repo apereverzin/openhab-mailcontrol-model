@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.DECIMAL;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.creek.mailcontrol.model.data.DecimalData;
 import org.creek.mailcontrol.model.util.JSONTransformer;
@@ -38,7 +39,20 @@ public class DecimalDataTest {
         
         // then
         assertEquals(DECIMAL, dataRes.getStateType());
+        assertEquals(DECIMAL, dataRes.getCommandType());
         assertEquals(DECIMAL_VALUE, dataRes.getData().toString());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        data = new DecimalData(DECIMAL_VALUE);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(DecimalData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

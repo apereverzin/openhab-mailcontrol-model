@@ -7,17 +7,17 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class GenericItemState extends AbstractSendableData {
+public abstract class ItemData extends AbstractSendableData {
     private final String itemId;
 
     private static final String ITEM_ID = "itemId";
 
-    public GenericItemState(long timeSent, String itemId) {
+    public ItemData(long timeSent, String itemId) {
         super(timeSent);
         this.itemId = itemId;
     }
 
-    public GenericItemState(JSONObject jsonObject) {
+    public ItemData(JSONObject jsonObject) {
         super(jsonObject);
         this.itemId = (String) jsonObject.get(ITEM_ID);
     }

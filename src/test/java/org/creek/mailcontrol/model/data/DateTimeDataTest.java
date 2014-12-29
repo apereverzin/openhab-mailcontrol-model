@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.DATE_TIME;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,18 +17,18 @@ import org.creek.mailcontrol.model.util.JSONTransformer;
  * @author Andrey.Pereverzin
  */
 public class DateTimeDataTest {
-    private static final String DATE_TIME_VALUE = "someValue";
+    private static final String DATE_TIME_VALUE = "2014-12-22 19:59:53";
     
-    private DateTimeData state;
+    private DateTimeData data;
     
     @Test
     public void shouldTransformDateTimeState() throws ParseException {
         // given
         DateTimeDataType value = new DateTimeDataType(DATE_TIME_VALUE);
-        state = new DateTimeData(value);
+        data = new DateTimeData(value);
 
         // when
-        JSONObject jsonData = state.toJSON();
+        JSONObject jsonData = data.toJSON();
         String s = jsonData.toString();
         JSONParser parser = new JSONParser();
         JSONTransformer transformer = new JSONTransformer();
@@ -40,6 +41,19 @@ public class DateTimeDataTest {
         // then
         assertEquals(DATE_TIME, dataRes.getStateType());
         assertEquals(DATE_TIME_VALUE, dataRes.getData().toString());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        DateTimeDataType value = new DateTimeDataType(DATE_TIME_VALUE);
+        data = new DateTimeData(value);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(DateTimeData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

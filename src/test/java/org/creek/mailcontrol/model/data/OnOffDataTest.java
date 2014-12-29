@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.ON_OFF;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.creek.mailcontrol.model.types.OnOffDataType.OFF;
 import static org.creek.mailcontrol.model.types.OnOffDataType.ON;
 
@@ -18,17 +19,17 @@ import org.creek.mailcontrol.model.util.JSONTransformer;
  * @author Andrey.Pereverzin
  */
 public class OnOffDataTest {
-    private OnOffData command;
+    private OnOffData data;
     
     @Test
     public void shouldTransformOnCommand() throws ParseException {
         // given
         OnOffDataType value = ON;
-        command = new OnOffData(value);
+        data = new OnOffData(value);
 
         // when
-        JSONObject jsonCommand = command.toJSON();
-        String s = jsonCommand.toString();
+        JSONObject jsonData = data.toJSON();
+        String s = jsonData.toString();
         JSONParser parser = new JSONParser();
         JSONTransformer transformer = new JSONTransformer();
         parser.parse(s, transformer);
@@ -39,6 +40,7 @@ public class OnOffDataTest {
         
         // then
         assertEquals(ON_OFF, commandRes.getStateType());
+        assertEquals(ON_OFF, commandRes.getCommandType());
         assertEquals(value, commandRes.getData());
     }
     
@@ -46,11 +48,11 @@ public class OnOffDataTest {
     public void shouldTransformOffCommand() throws ParseException {
         // given
         OnOffDataType value = OFF;
-        command = new OnOffData(value);
+        data = new OnOffData(value);
 
         // when
-        JSONObject jsonCommand = command.toJSON();
-        String s = jsonCommand.toString();
+        JSONObject jsonData = data.toJSON();
+        String s = jsonData.toString();
         JSONParser parser = new JSONParser();
         JSONTransformer transformer = new JSONTransformer();
         parser.parse(s, transformer);
@@ -61,7 +63,20 @@ public class OnOffDataTest {
         
         // then
         assertEquals(ON_OFF, commandRes.getStateType());
+        assertEquals(ON_OFF, commandRes.getCommandType());
         assertEquals(value, commandRes.getData());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        data = new OnOffData(OFF);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(OnOffData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

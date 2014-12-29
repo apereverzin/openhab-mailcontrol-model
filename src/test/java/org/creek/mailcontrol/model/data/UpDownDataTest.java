@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.UP_DOWN;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.creek.mailcontrol.model.types.UpDownDataType.DOWN;
 import static org.creek.mailcontrol.model.types.UpDownDataType.UP;
 
@@ -39,6 +40,7 @@ public class UpDownDataTest {
         
         // then
         assertEquals(UP_DOWN, dataRes.getStateType());
+        assertEquals(UP_DOWN, dataRes.getCommandType());
         assertEquals(value, dataRes.getData());
     }
     
@@ -61,7 +63,20 @@ public class UpDownDataTest {
         
         // then
         assertEquals(UP_DOWN, dataRes.getStateType());
+        assertEquals(UP_DOWN, dataRes.getCommandType());
         assertEquals(value, dataRes.getData());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        data = new UpDownData(DOWN);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(UpDownData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

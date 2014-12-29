@@ -27,9 +27,7 @@ public class ItemCommandRequestMessageTest {
     @Test
     public void shouldTransformItemCommandRequestMessage() throws ParseException {
         // given
-        CommandTransformable command = new DecimalData(DECIMAL_VALUE);
-        ItemCommandData itemCommand = new ItemCommandData(TIMESTAMP, ITEM_ID, command);
-        ItemCommandRequestMessage message = new ItemCommandRequestMessage(itemCommand, SENDER_EMAIL);
+        ItemCommandRequestMessage message = buildMessage();
         
         // when
         JSONObject jsonMessage = message.toJSON();
@@ -38,7 +36,7 @@ public class ItemCommandRequestMessageTest {
         JSONTransformer transformer = new JSONTransformer();
         parser.parse(s, transformer);
 
-        // {"messageType":"110","messageId":{"timestamp":1418237415197,"senderEmail":"aa@bb.cc"},"productVersion":"1.0","itemCommand":{"state":{"type":"DECIMAL","value":"12"},"itemId":"LIGHT","timeSent":"0"}}
+        // {"messageType":"110","messageId":{"timestamp":1418237415197,"senderEmail":"aa@bb.cc"},"productVersion":"1.0","itemCommand":{"command":{"type":"DECIMAL","value":"12"},"itemId":"LIGHT","timeSent":"0"}}
         JSONObject res = (JSONObject) transformer.getResult();
         ItemCommandRequestMessage messageRes = new ItemCommandRequestMessage(res);
         
@@ -48,5 +46,24 @@ public class ItemCommandRequestMessageTest {
         assertEquals(SENDER_EMAIL, messageRes.getMessageId().getSenderEmail());
         assertEquals(ItemCommandData.class.getName(), messageRes.getItemCommand().getClass().getName());
         assertTrue(messageRes.getMessageId().getTimestamp() > 0);
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        ItemCommandRequestMessage message = buildMessage();
+        
+        // when
+        String s = message.toString();
+        
+        // then
+        assertTrue(s.contains(ItemCommandRequestMessage.class.getName()));
+    }
+
+    private ItemCommandRequestMessage buildMessage() {
+        CommandTransformable command = new DecimalData(DECIMAL_VALUE);
+        ItemCommandData itemCommand = new ItemCommandData(TIMESTAMP, ITEM_ID, command);
+        ItemCommandRequestMessage message = new ItemCommandRequestMessage(itemCommand, SENDER_EMAIL);
+        return message;
     }
 }

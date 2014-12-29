@@ -19,12 +19,10 @@ public class ItemStateRequestMessageTest {
     private static final String SENDER_EMAIL = "aa@bb.cc";
     private static final String ITEM_ID = "LIGHT";
     
-    private ItemStateRequestMessage message;
-        
     @Test
     public void shouldTransformItemStateRequestMessage() throws ParseException {
         // given
-        message = new ItemStateRequestMessage(SENDER_EMAIL, ITEM_ID);
+        ItemStateRequestMessage message = buildMessage();
         
         // when
         JSONObject jsonMessage = message.toJSON();
@@ -42,5 +40,22 @@ public class ItemStateRequestMessageTest {
         assertEquals(CURRENT_PRODUCT_VERSION, messageRes.getProductVersion());
         assertEquals(SENDER_EMAIL, messageRes.getMessageId().getSenderEmail());
         assertTrue(messageRes.getMessageId().getTimestamp() > 0);
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        ItemStateRequestMessage message = buildMessage();
+        
+        // when
+        String s = message.toString();
+        
+        // then
+        assertTrue(s.contains(ItemStateRequestMessage.class.getName()));
+    }
+
+    private ItemStateRequestMessage buildMessage() {
+        ItemStateRequestMessage message = new ItemStateRequestMessage(SENDER_EMAIL, ITEM_ID);
+        return message;
     }
 }

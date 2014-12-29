@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.OPEN_CLOSED;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.creek.mailcontrol.model.types.OpenClosedDataType.OPEN;
 import static org.creek.mailcontrol.model.types.OpenClosedDataType.CLOSED;
 
@@ -39,6 +40,7 @@ public class OpenClosedDataTest {
         
         // then
         assertEquals(OPEN_CLOSED, dataRes.getStateType());
+        assertEquals(OPEN_CLOSED, dataRes.getCommandType());
         assertEquals(value, dataRes.getData());
     }
     
@@ -61,7 +63,20 @@ public class OpenClosedDataTest {
         
         // then
         assertEquals(OPEN_CLOSED, dataRes.getStateType());
+        assertEquals(OPEN_CLOSED, dataRes.getCommandType());
         assertEquals(value, dataRes.getData());
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        data = new OpenClosedData(CLOSED);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(OpenClosedData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class ItemsStateRequestMessage extends AbstractMessage {
+public class ItemsStateRequestMessage extends AbstractMessage implements GenericRequest {
 
     public ItemsStateRequestMessage(String senderEmail) {
         super(senderEmail);
@@ -22,5 +22,10 @@ public class ItemsStateRequestMessage extends AbstractMessage {
     @Override
     public MessageType getMessageType() {
         return ITEMS_STATE_REQUEST_MESSAGE;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + " [" + super.toString() + "]";
     }
 }

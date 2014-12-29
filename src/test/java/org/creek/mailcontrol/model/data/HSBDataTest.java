@@ -2,6 +2,7 @@ package org.creek.mailcontrol.model.data;
 
 import static org.creek.mailcontrol.model.data.DataType.HSB;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,16 +21,16 @@ public class HSBDataTest {
     private static final long SATURATION_VALUE = 20;
     private static final long BRIGHTNESS_VALUE = 30;
     
-    private HSBData command;
+    private HSBData data;
     
     @Test
     public void shouldTransformColorCommand() throws ParseException {
         // given
-        command = new HSBData(HUE_VALUE, SATURATION_VALUE, BRIGHTNESS_VALUE);
+        data = new HSBData(HUE_VALUE, SATURATION_VALUE, BRIGHTNESS_VALUE);
 
         // when
-        JSONObject jsonCommand = command.toJSON();
-        String s = jsonCommand.toString();
+        JSONObject jsonData = data.toJSON();
+        String s = jsonData.toString();
         JSONParser parser = new JSONParser();
         JSONTransformer transformer = new JSONTransformer();
         parser.parse(s, transformer);
@@ -40,9 +41,22 @@ public class HSBDataTest {
         
         // then
         assertEquals(HSB, commandRes.getStateType());
+        assertEquals(HSB, commandRes.getCommandType());
         assertEquals(((HSBDataType)commandRes.getData()).getHue(), HUE_VALUE);
         assertEquals(((HSBDataType)commandRes.getData()).getSaturation(), SATURATION_VALUE);
         assertEquals(((HSBDataType)commandRes.getData()).getBrightness(), BRIGHTNESS_VALUE);
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        data = new HSBData(HUE_VALUE, SATURATION_VALUE, BRIGHTNESS_VALUE);
+
+        // when
+        String s = data.toString();
+        
+        // then
+        assertTrue(s.contains(HSBData.class.getName()));
     }
     
     @Test(expected=Throwable.class)

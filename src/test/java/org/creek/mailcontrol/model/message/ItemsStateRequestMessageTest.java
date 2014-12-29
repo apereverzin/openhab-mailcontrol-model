@@ -18,12 +18,10 @@ import org.junit.Test;
 public class ItemsStateRequestMessageTest {
     private static final String SENDER_EMAIL = "aa@bb.cc";
     
-    private ItemsStateRequestMessage message;
-        
     @Test
     public void shouldTransformItemsStateRequestMessage() throws ParseException {
         // given
-        message = new ItemsStateRequestMessage(SENDER_EMAIL);
+        ItemsStateRequestMessage message = buildMessage();
         
         // when
         JSONObject jsonMessage = message.toJSON();
@@ -41,5 +39,22 @@ public class ItemsStateRequestMessageTest {
         assertEquals(CURRENT_PRODUCT_VERSION, messageRes.getProductVersion());
         assertEquals(SENDER_EMAIL, messageRes.getMessageId().getSenderEmail());
         assertTrue(messageRes.getMessageId().getTimestamp() > 0);
+    }
+    
+    @Test
+    public void shouldToStringWork() throws ParseException {
+        // given
+        ItemsStateRequestMessage message = buildMessage();
+        
+        // when
+        String s = message.toString();
+        
+        // then
+        assertTrue(s.contains(ItemsStateRequestMessage.class.getName()));
+    }
+
+    private ItemsStateRequestMessage buildMessage() {
+        ItemsStateRequestMessage message = new ItemsStateRequestMessage(SENDER_EMAIL);
+        return message;
     }
 }

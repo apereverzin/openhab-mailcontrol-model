@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
  * @author Andrey Pereverzin
  */
 @SuppressWarnings("serial")
-public class PercentData extends PrimitiveData<PercentDataType> implements StateTransformable {
+public class PercentData extends PrimitiveData<PercentDataType> implements StateTransformable, CommandTransformable {
     public PercentData(String value) {
         super(new PercentDataType(value));
     }
@@ -33,6 +33,11 @@ public class PercentData extends PrimitiveData<PercentDataType> implements State
 
     @Override
     public DataType getStateType() {
+        return getDataType();
+    }
+
+    @Override
+    public DataType getCommandType() {
         return getDataType();
     }
 

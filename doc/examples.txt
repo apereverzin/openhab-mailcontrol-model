@@ -5,12 +5,12 @@ andrey.pereverzin_sweethome@yahoo.com
 OpenHABRequest
 
 Color:
-{"messageType":"110","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0","itemCommand":{"timeSent":"0","state":{"brightness":50,"saturation":50,"stateType":"HSB","hue":150,"stateType":"HSB"},"itemId":"Light1"}}
+{"messageType":"110","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0","itemCommand":{"timeSent":"0","command":{"brightness":50,"saturation":50,"type":"HSB","hue":150},"itemId":"Light1"}}
 
 On:
-{"messageType":"110","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0","itemCommand":{"timeSent":"0","state":{"stateType":"ON_OFF","value":"ON"},"itemId":"Light1"}}
+{"messageType":"110","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0","itemCommand":{"timeSent":"0","command":{"type":"ON_OFF","value":"ON"},"itemId":"Light1"}}
 Off:
-{"messageType":"110","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0","itemCommand":{"timeSent":"0","state":{"stateType":"ON_OFF","value":"OFF"},"itemId":"Light1"}}
+{"messageType":"110","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0","itemCommand":{"timeSent":"0","command":{"type":"ON_OFF","value":"OFF"},"itemId":"Light1"}}
 
 Item state request:
 {"itemId":"LIGHT1","messageType":"112","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0"}
@@ -19,4 +19,4 @@ Items state request:
 {"messageType":"114","messageId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"productVersion":"1.0"}
 
 Items state response:
-{"itemStates":[{"state":{"brightness":0,"stateType":"HSB","saturation":0,"hue":0},"itemId":"Light1","timeSent":"1418623535499"},{"state":{"stateType":"DATE_TIME","value":"2014-12-15T05:59:06"},"itemId":"Date","timeSent":"1418623535500"}],"requestId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"messageId":{"timestamp":1418623535500,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"messageType":"115","productVersion":"1.0"}
+{"itemStates":[{"state":{"brightness":0,"type":"HSB","saturation":0,"hue":0},"itemId":"Light1","timeSent":"1418623535499"},{"state":{"type":"DATE_TIME","value":"2014-12-15T05:59:06"},"itemId":"Date","timeSent":"1418623535500"}],"requestId":{"timestamp":0,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"messageId":{"timestamp":1418623535500,"senderEmail":"andrey.pereverzin_sweethome@yahoo.com"},"messageType":"115","productVersion":"1.0"}
