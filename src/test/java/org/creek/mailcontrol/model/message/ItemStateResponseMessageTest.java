@@ -44,7 +44,7 @@ public class ItemStateResponseMessageTest {
         JSONTransformer transformer = new JSONTransformer();
         parser.parse(s, transformer);
 
-        // {"itemState":{"state":{"type":"DECIMAL","value":"12"},"itemId":"LIGHT","timeSent":"0"},"messageType":"113","productVersion":"1.0","messageId":{"timestamp":1419359758214,"senderEmail":"dd@ee.ff"},"requestId":{"timestamp":1419359758211,"senderEmail":"aa@bb.cc"}}
+        // {"requestId":{"timestamp":1420380013436,"senderEmail":"aa@bb.cc"},"productVersion":"1.0","messageType":"113","timeSent":0,"itemState":{"itemId":"LIGHT","timeSent":"0","acceptedCommands":["INCREASE_DECREASE","ON_OFF"],"state":{"type":"DECIMAL","value":"12"}},"messageId":{"timestamp":1420380013436,"senderEmail":"dd@ee.ff"}}
         JSONObject res = (JSONObject) transformer.getResult();
         ItemStateResponseMessage messageRes = new ItemStateResponseMessage(res);
         

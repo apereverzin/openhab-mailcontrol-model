@@ -8,4 +8,6 @@ public interface GenericMessage extends JsonTransformable {
     MessageType getMessageType();    
     String getProductVersion();
     MessageId getMessageId();
+    long getTimeSent();
+    void setTimeSent(long timestamp);
 }
